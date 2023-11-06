@@ -29,7 +29,6 @@ jobs:
           mkdir -p out
           chown -R ${{ env.repo_user }} $tempdir
           mkarchiso -v -w ${{ runner.temp }} -o out lab
-        shell: bash
 
       - name: Release ISO
         env:
