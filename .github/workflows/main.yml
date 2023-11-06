@@ -12,6 +12,8 @@ jobs:
     container:
       image: archlinux:base-devel
       options: --privileged
+      volumes:
+        - ${{ github.workspace}}:${{ github.workspace }}
 
     steps:
       - name: Checkout Repository
@@ -33,10 +35,8 @@ jobs:
           mkdir -p $outdir
           mkarchiso -v -w ${{ runner.temp }} -o ${outdir} ./lab
 
-      - name: Release ISO
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cd ${{ github.workspace }}
-          date=$(date +%Y%m%d)
-          gh release create $date out/*.iso
+      - name: Upload ISO
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Lab Linux ISO"
+          path: ${{ runner.temp }}/out
