@@ -37,5 +37,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cd ${{ github.workspace }}
           date=$(date +%Y%m%d)
           gh release create $date out/*.iso
