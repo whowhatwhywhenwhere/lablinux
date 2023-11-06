@@ -13,8 +13,9 @@ jobs:
       image: archlinux:base-devel
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Setup Arch
         run: |
           useradd -m -G wheel -s /bin/bash ${{ env.repo_user }}
@@ -23,16 +24,16 @@ jobs:
           git config --global user.email "${{ env.repo_email }}"
           git config --global user.name "${{ env.repo_user }}"
 
-    - name: Configure and Build ISO
-      run: |
-        tempdir=$(mktemp -d)
-        outdir=./
-        mkarchiso -v -w ${tempdir} -o ${outdir} ./lab
-      shell: bash
+      - name: Configure and Build ISO
+        run: |
+          tempdir=$(mktemp -d)
+          outdir=./
+          mkarchiso -v -w ${tempdir} -o ${outdir} ./lab
+        shell: bash
 
-    - name: Release ISO
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        date=$(date +%Y%m%d)
-        gh release create $date *.iso
+      - name: Release ISO
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          date=$(date +%Y%m%d)
+          gh release create $date *.iso
