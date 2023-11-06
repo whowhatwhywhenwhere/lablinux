@@ -1,0 +1,6 @@
+root:x:0:root
+adm:x:4:lab
+wheel:x:10:lab
+uucp:x:14:lab
+video:x:14:lab
+lab:x:1000:

@@ -1,0 +1,38 @@
+name: Build Arch Linux ISO
+
+on: [workflow_dispatch]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      - name: Setup Arch
+        run: |
+          useradd -m -G wheel -s /bin/bash ${{ env.repo_user }}
+          echo "${{ env.repo_user }} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+          pacman -Syu --needed --noconfirm archiso git github-cli
+          git config --global user.email "${{ env.repo_email }}"
+          git config --global user.name "${{ env.repo_user }}"
+
+    - name: Configure and Build ISO
+      run: |
+        tempdir=$(mktemp -d)
+        outdir=./
+        mkarchiso -v -w ${tempdir} -o ${outdir} ./lab
+      shell: bash
+
+    - name: Release ISO
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        date=$(date +%Y%m%d)
+        gh release create $date *.iso
