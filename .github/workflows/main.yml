@@ -26,8 +26,11 @@ jobs:
 
       - name: Configure and Build ISO
         run: |
-          mkdir -p out
-          mkarchiso -v -w ${{ runner.temp }} -o out lab
+          tempdir=${{ runner.temp }}/iso
+          outdir=out
+          mkdir -p $tempdir
+          mkdir -p $outdir
+          mkarchiso -v -w ${{ runner.temp }} -o ${outdir} ./lab
 
       - name: Release ISO
         env:
