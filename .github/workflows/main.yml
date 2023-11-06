@@ -6,6 +6,10 @@ defaults:
   run:
     shell: bash
 
+env:
+  repo_user: ${{ github.repository_owner }}
+  repo_email: ${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com
+
 jobs:
   build-iso:
     runs-on: ubuntu-latest
