@@ -39,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "Lab Linux ISO"
-          path: ${{ runner.temp }}/out
+          path: ./**/*.iso
