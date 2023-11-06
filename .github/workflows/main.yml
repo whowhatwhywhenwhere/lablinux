@@ -27,7 +27,6 @@ jobs:
       - name: Configure and Build ISO
         run: |
           mkdir -p out
-          chown -R ${{ env.repo_user }} $tempdir
           mkarchiso -v -w ${{ runner.temp }} -o out lab
 
       - name: Release ISO
