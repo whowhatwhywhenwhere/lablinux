@@ -26,7 +26,7 @@ jobs:
 
       - name: Configure and Build ISO
         run: |
-          tempdir=tmp
+          tempdir=${{ runner.temp }}/iso
           outdir=out
           mkdir -p $tempdir
           mkdir -p $outdir
