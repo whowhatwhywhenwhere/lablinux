@@ -30,6 +30,7 @@ jobs:
           outdir=out
           mkdir -p $tempdir
           mkdir -p $outdir
+          chown -R ${{ env.repo_user }} $tempdir
           mkarchiso -v -w ${tempdir} -o ${outdir} ./lab
         shell: bash
 
