@@ -30,8 +30,10 @@ jobs:
 
       - name: Configure and Build ISO
         run: |
-          tempdir=$(mktemp -d)
-          outdir=./
+          tempdir=tmp
+          outdir=out
+          mkdir -p $tempdir
+          mkdir -p $outdir
           mkarchiso -v -w ${tempdir} -o ${outdir} ./lab
         shell: bash
 
@@ -40,4 +42,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           date=$(date +%Y%m%d)
-          gh release create $date *.iso
+          gh release create $date out/*.iso
